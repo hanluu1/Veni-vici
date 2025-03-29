@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [photo, setPhoto] = useState(null);
+  const UNSPLASH_ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
+
+  const fetchRandomPhoto = async () => {
+    try {
+      const response = await fetch("https://api.unsplash.com/photos/random", {
+        headers: {
+          Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Unsplash data:", data); 
+      setPhoto(data);
+    } catch (error) {
+      console.error("Fetching photo failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRandomPhoto();
+  }, []);
+
+  if (!photo) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div style={{ margin: "2rem", maxWidth: "600px" }}>
+      <h1>Random Unsplash Photo</h1>
+      <button onClick={fetchRandomPhoto}>
+        Discover Another Photo 🌎
+      </button>
 
-export default App
+      <div style={{ marginTop: "1rem" }}>
+        <img
+          src={photo.urls.small}
+          alt={photo.alt_description || "Unsplash Photo"}
+          style={{ width: "100%", borderRadius: "8px" }}
+        />
+
+        <p>
+          <strong>Photographer:</strong> {photo.user.name}
+        </p>
+        <p>
+          <strong>Description:</strong>{" "}
+          {photo.alt_description || "No description provided."}
+        </p>
+
+        {photo.tags && photo.tags.length > 0 && (
+          <div>
+            <strong>Tags:</strong>
+            <ul>
+              {photo.tags.map((tagObj, index) => (
+                <li key={index}>{tagObj.title}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default App;
