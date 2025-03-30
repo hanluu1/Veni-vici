@@ -33,13 +33,13 @@ const App = () => {
   }
 
   return (
-    <div style={{ margin: "2rem", maxWidth: "600px" }}>
+    <div className="container">
       <h1>Random Unsplash Photo</h1>
       <button onClick={fetchRandomPhoto}>
         Discover Another Photo 🌎
       </button>
 
-      <div style={{ marginTop: "1rem" }}>
+      <div className="sub-container">
         <img
           src={photo.urls.small}
           alt={photo.alt_description || "Unsplash Photo"}
@@ -47,10 +47,10 @@ const App = () => {
         />
 
         <p>
-          <strong>Photographer:</strong> {photo.user.name}
+          Photographer: {photo.user.name}
         </p>
         <p>
-          <strong>Description:</strong>{" "}
+          Description:{" "}
           {photo.alt_description || "No description provided."}
         </p>
 
