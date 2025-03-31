@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BanList from "./components/BanList";
+import History from "./components/History"; 
 const App = () => {
   const UNSPLASH_ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
   const [photo, setPhoto] = useState(null);
@@ -9,7 +10,7 @@ const App = () => {
     city: [],
     country: [],
   });
-
+  const [history, setHistory] = useState([]);
   const fetchRandomPhoto = async () => {
     try{
       let validPhotoFound = false;
@@ -37,7 +38,7 @@ const App = () => {
           validPhotoFound = true;
         }
       }
-
+      setHistory(prev => photo ? [photo, ...prev] : prev);
       setPhoto({
         imageUrl: data.urls.small,
         photographer: data.user.name,
@@ -71,34 +72,38 @@ const App = () => {
 
   return (
     <div className="app">
-      <div className="container">
-        <h1>Guess where these pictures were taken</h1>          
+      <div className="sub-app-container">
+        <div className="container">
+          <h1>Guess where these pictures were taken</h1>          
 
-        <div className="sub-container">
-          <button onClick={fetchRandomPhoto}>Discover around the 🌎</button>
+          <div className="sub-container">
+            <button onClick={fetchRandomPhoto}>Discover around the 🌎</button>
 
-          <img src={photo.imageUrl} alt={photo.description} />
-            <p> Description: {photo.description}</p>        
+            <img src={photo.imageUrl} alt={photo.description} />
+              <p> Description: {photo.description}</p>        
 
-          <div className="attributes">
-            <button onClick={() => toggleBanItem("photographer", photo.photographer)}>
-              Photographer: {photo.photographer}
-            </button>
-            <button onClick={() => toggleBanItem("likes", photo.likes)}>
-              Likes: {photo.likes}
-            </button>
-            <button onClick={() => toggleBanItem("city", photo.city)}>
-              City: {photo.city}
-            </button>
-            <button onClick={() => toggleBanItem("country", photo.country)}>
-              Country: {photo.country}
-            </button>
+            <div className="attributes">
+              <button onClick={() => toggleBanItem("photographer", photo.photographer)}>
+                Photographer: {photo.photographer}
+              </button>
+              <button onClick={() => toggleBanItem("likes", photo.likes)}>
+                Likes: {photo.likes}
+              </button>
+              <button onClick={() => toggleBanItem("city", photo.city)}>
+                City: {photo.city}
+              </button>
+              <button onClick={() => toggleBanItem("country", photo.country)}>
+                Country: {photo.country}
+              </button>
+            </div>
           </div>
         </div>
+      <History history={history}/>
       </div>
       <BanList
         bannedItems={banList}
         removeFromBanList={toggleBanItem}/>
+     
     </div>
   );
 };

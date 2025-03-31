@@ -3,4 +3,6 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  overflow-y:auto;
+  background: linear-gradient(135deg,rgb(147, 224, 247),rgb(209, 212, 215)); /* Vivid blue gradient */
 }

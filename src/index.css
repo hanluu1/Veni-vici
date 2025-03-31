@@ -1,24 +1,25 @@
+
 html, body {
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100%; /* Ensure the body covers at least the full viewport height */
+  height: auto; /* Allow the body to grow with the content */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: flex-start; /* Align content to the top */
+  background: linear-gradient(135deg, rgb(147, 224, 247), rgb(209, 212, 215)); /* Vivid blue gradient */
 }
 
-body {
-  background: linear-gradient(135deg,rgb(147, 224, 247),rgb(209, 212, 215)); /* Vivid blue gradient */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-}
 .app {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 30px;
   width: 100%;
-  height: 100vh;
   justify-content: center;
-  align-items: center;
+  align-items: stretch; /* Stretch items to match height */
+  min-height: calc(100vh - 20px); /* Ensure the app takes up at least the viewport height */
+  margin: 20px 0; /* Add spacing around the app */
 }
 .container {
   width: 700px;
@@ -108,17 +109,66 @@ button:hover {
   font-size: 0.85rem;
 }
 
-.banlist-container {
+
+/* History Container clearly updated */
+.history-container {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px;
+  padding:30px;
   border-radius: 8px;
-  background-color: #f8d7da; /* Light red background for banlist */
-  
-  max-width: 250px; /* Limits the width */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle shadow */
-
-  height: auto; /* Ensures height flexes with content */
-
- 
+  background-color: white; 
+  width: 700px; 
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  margin-top: 20px;
+  max-height:400px;
+  overflow-y: auto; 
 }
+.history-container h3 {
+  margin-top: 0;
+}
+
+/* This clearly fixes the row layout with flex-wrap */
+.history-list {
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap; /* <-- Wrap items to next row clearly */
+  gap: 10px; /* clearly spaced between items */
+  justify-content: flex-start;
+}
+
+.history-item {
+  flex: 0 1 200px; /* Each item flexible, but about 200px wide */
+  border-bottom: none; /* Remove border-bottom clearly */
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-item img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.history-details {
+  font-size: 0.8rem;
+  color: #333;
+  text-align: center;
+}
+
+
+.banlist-container {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  justify-content: flex-start; /* Align items to the top */
+  gap: 10px; /* Space between items */
+  padding: 10px 10px;
+  border-radius: 8px;
+  background-color: #f8d7da;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 250px; /* Set a fixed width */
+  align-self: stretch; /* Stretch to match sibling container height */
+  overflow-y: auto; /* Add scroll if content overflows */
+
+}
+
